@@ -1,0 +1,341 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role definition",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "displayName": { "type": "string", "description": "User full name" },
+        "photoURL": { "type": "string", "description": "Avatar URL" },
+        "role": { "type": "string", "enum": ["admin", "panitia", "santri"], "description": "System role" },
+        "phoneNumber": { "type": "string", "description": "Phone number" },
+        "createdAt": { "type": "string", "description": "Creation ISO timestamp" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "PPDB registration main tracking record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Applicant user UID" },
+        "registrationNumber": { "type": "string", "description": "Unique registration code like PPDB-2026-001" },
+        "waveId": { "type": "string", "description": "Reference to registration wave" },
+        "programId": { "type": "string", "description": "Reference to educational program" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Draft",
+            "Menunggu Verifikasi",
+            "Perlu Perbaikan",
+            "Terverifikasi",
+            "Mengikuti Seleksi",
+            "Diterima",
+            "Diterima Bersyarat",
+            "Cadangan",
+            "Tidak Diterima",
+            "Daftar Ulang"
+          ],
+          "description": "PPDB workflow status"
+        },
+        "verificationNotes": { "type": "string", "description": "Notes from admin verification" },
+        "verifiedAt": { "type": "string", "description": "Verification ISO timestamp" },
+        "verifiedBy": { "type": "string", "description": "Admin UID who verified" },
+        "submittedAt": { "type": "string", "description": "Submission ISO timestamp" },
+        "createdAt": { "type": "string", "description": "Created ISO timestamp" },
+        "updatedAt": { "type": "string", "description": "Updated ISO timestamp" }
+      },
+      "required": ["userId", "registrationNumber", "status"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Calon Santri personal data",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "userId": { "type": "string", "description": "Owner user UID" },
+        "nik": { "type": "string", "description": "Nomor Induk Kependudukan (16 digits)", "maxLength": 16 },
+        "nisn": { "type": "string", "description": "Nomor Induk Siswa Nasional (10 digits)", "maxLength": 10 },
+        "fullName": { "type": "string", "description": "Nama lengkap calon santri", "maxLength": 100 },
+        "nickname": { "type": "string", "description": "Nama panggilan", "maxLength": 50 },
+        "gender": { "type": "string", "enum": ["Laki-laki", "Perempuan"], "description": "Jenis kelamin" },
+        "birthPlace": { "type": "string", "description": "Tempat lahir", "maxLength": 60 },
+        "birthDate": { "type": "string", "description": "Tanggal lahir (YYYY-MM-DD)" },
+        "childOrder": { "type": "string", "description": "Anak ke-" },
+        "siblingsCount": { "type": "string", "description": "Jumlah saudara kandung" },
+        "kkNumber": { "type": "string", "description": "Nomor Kartu Keluarga (16 digits)", "maxLength": 16 }
+      },
+      "required": ["registrationId", "userId", "nik", "fullName", "gender", "birthPlace", "birthDate"]
+    },
+    "Education": {
+      "title": "Education",
+      "description": "Calon Santri prior education and choices",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "schoolOrigin": { "type": "string", "description": "Asal sekolah sebelumnya", "maxLength": 100 },
+        "npsn": { "type": "string", "description": "NPSN Asal Sekolah", "maxLength": 20 },
+        "graduationYear": { "type": "string", "description": "Tahun kelulusan" },
+        "selectedLevel": { "type": "string", "description": "Jenjang yang dipilih (e.g. MTs, MA, SMP, SMA)" },
+        "selectedProgram": { "type": "string", "description": "Program pilihan (e.g. Tahfidz, Reguler, Kitab)" },
+        "averageReportScore": { "type": "string", "description": "Rata-rata nilai rapor" },
+        "achievements": { "type": "string", "description": "Prestasi yang pernah diraih" }
+      },
+      "required": ["registrationId", "schoolOrigin", "selectedLevel", "selectedProgram"]
+    },
+    "Parent": {
+      "title": "Parent",
+      "description": "Parent and guardian information",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "fatherName": { "type": "string", "description": "Nama ayah kandung", "maxLength": 100 },
+        "fatherOccupation": { "type": "string", "description": "Pekerjaan ayah" },
+        "fatherIncome": { "type": "string", "description": "Penghasilan ayah bulanan" },
+        "fatherPhone": { "type": "string", "description": "Nomor HP/WA ayah", "maxLength": 20 },
+        "motherName": { "type": "string", "description": "Nama ibu kandung", "maxLength": 100 },
+        "motherOccupation": { "type": "string", "description": "Pekerjaan ibu" },
+        "motherIncome": { "type": "string", "description": "Penghasilan ibu bulanan" },
+        "motherPhone": { "type": "string", "description": "Nomor HP/WA ibu", "maxLength": 20 },
+        "guardianName": { "type": "string", "description": "Nama wali jika ada" },
+        "guardianOccupation": { "type": "string", "description": "Pekerjaan wali" },
+        "guardianIncome": { "type": "string", "description": "Penghasilan wali" },
+        "guardianPhone": { "type": "string", "description": "Nomor HP/WA wali" }
+      },
+      "required": ["registrationId", "fatherName", "fatherPhone", "motherName"]
+    },
+    "Address": {
+      "title": "Address",
+      "description": "Calon santri domicile address",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "province": { "type": "string", "description": "Provinsi", "maxLength": 50 },
+        "city": { "type": "string", "description": "Kabupaten/Kota", "maxLength": 50 },
+        "district": { "type": "string", "description": "Kecamatan", "maxLength": 50 },
+        "village": { "type": "string", "description": "Desa/Kelurahan", "maxLength": 50 },
+        "fullAddress": { "type": "string", "description": "Alamat jalan, RT/RW, Dusun", "maxLength": 255 },
+        "postalCode": { "type": "string", "description": "Kode Pos", "maxLength": 10 }
+      },
+      "required": ["registrationId", "province", "city", "district", "village", "fullAddress"]
+    },
+    "PesantrenProfile": {
+      "title": "PesantrenProfile",
+      "description": "Islamic boarding specific preferences and religious background",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "programChoice": { "type": "string", "description": "Pilihan program kepesantrenan" },
+        "dormitoryChoice": { "type": "string", "description": "Pilihan asrama / gedung" },
+        "boardingStatus": { "type": "string", "enum": ["Mukim", "Non-Mukim"], "description": "Status mukim / non-mukim" },
+        "quranReadingLevel": { "type": "string", "description": "Kemampuan membaca Al-Qur'an (Belum Lancar / Lancar / Bertajwid / Fasih)" },
+        "quranMemorization": { "type": "string", "description": "Jumlah hafalan Al-Qur'an (e.g. 1 Juz, 3 Juz, Juz 30)" },
+        "arabicLanguageLevel": { "type": "string", "description": "Kemampuan bahasa Arab (Dasar / Menengah / Mahir)" },
+        "previousPesantren": { "type": "string", "description": "Riwayat pernah mondok di pesantren sebelumnya" }
+      },
+      "required": ["registrationId", "boardingStatus", "quranReadingLevel"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "Uploaded registration verification document",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "userId": { "type": "string", "description": "Uploader user UID" },
+        "docType": {
+          "type": "string",
+          "enum": [
+            "Kartu Keluarga",
+            "Akta Kelahiran",
+            "KTP Orang Tua",
+            "Ijazah / SKL",
+            "Raport Terakhir",
+            "Pas Foto 3x4",
+            "Sertifikat Prestasi",
+            "Dokumen Tambahan"
+          ],
+          "description": "Jenis dokumen persyaratan"
+        },
+        "fileUrl": { "type": "string", "description": "Download or view URL" },
+        "fileName": { "type": "string", "description": "Original file name" },
+        "fileSize": { "type": "string", "description": "File size formatted" },
+        "status": { "type": "string", "enum": ["Valid", "Perlu Perbaikan", "Tidak Valid", "Menunggu"], "description": "Verification status" },
+        "adminNotes": { "type": "string", "description": "Feedback notes from admin" },
+        "uploadedAt": { "type": "string", "description": "Upload ISO timestamp" }
+      },
+      "required": ["registrationId", "userId", "docType", "fileUrl", "status"]
+    },
+    "RegistrationWave": {
+      "title": "RegistrationWave",
+      "description": "PPDB wave period configuration",
+      "type": "object",
+      "properties": {
+        "waveName": { "type": "string", "description": "Nama gelombang (e.g. Gelombang 1 - Jalur Prestasi)" },
+        "startDate": { "type": "string", "description": "Tanggal mulai buka pendaftaran" },
+        "endDate": { "type": "string", "description": "Tanggal batas akhir pendaftaran" },
+        "announcementDate": { "type": "string", "description": "Tanggal pengumuman kelulusan" },
+        "quota": { "type": "string", "description": "Kuota penerimaan santri" },
+        "registrationFee": { "type": "string", "description": "Biaya pendaftaran (Rp)" },
+        "isActive": { "type": "string", "description": "true or false" }
+      },
+      "required": ["waveName", "startDate", "endDate", "isActive"]
+    },
+    "Program": {
+      "title": "Program",
+      "description": "Academic / Pesantren educational program",
+      "type": "object",
+      "properties": {
+        "level": { "type": "string", "description": "Jenjang (MTs, MA, SMP, SMA, Salafiyah)" },
+        "name": { "type": "string", "description": "Nama Program (e.g. Tahfidz Al-Qur'an 30 Juz, Kitab Kuning Salaf)" },
+        "description": { "type": "string", "description": "Deskripsi program unggulan" },
+        "quota": { "type": "string", "description": "Kuota santri" },
+        "registrationFee": { "type": "string", "description": "Biaya pendaftaran" },
+        "tuitionFee": { "type": "string", "description": "Biaya daftar ulang / infaq awal" }
+      },
+      "required": ["level", "name"]
+    },
+    "SelectionSchedule": {
+      "title": "SelectionSchedule",
+      "description": "Schedule for admission exam and interviews",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Nama sesi seleksi" },
+        "date": { "type": "string", "description": "Tanggal pelaksanaan" },
+        "time": { "type": "string", "description": "Waktu (e.g. 08:00 - 12:00 WIB)" },
+        "location": { "type": "string", "description": "Lokasi atau link tatap muka" },
+        "targetLevel": { "type": "string", "description": "Target jenjang program" },
+        "examiners": { "type": "string", "description": "Panitia penguji / pewawancara" },
+        "notes": { "type": "string", "description": "Perlengkapan yang wajib dibawa" }
+      },
+      "required": ["title", "date", "time", "location"]
+    },
+    "SelectionScore": {
+      "title": "SelectionScore",
+      "description": "Exam grading scores evaluated by panitia",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "studentName": { "type": "string", "description": "Nama calon santri" },
+        "academicScore": { "type": "string", "description": "Nilai Tes Akademik (0-100)" },
+        "religiousScore": { "type": "string", "description": "Nilai Tes Keagamaan (0-100)" },
+        "quranReadingScore": { "type": "string", "description": "Nilai Baca Al-Qur'an (0-100)" },
+        "quranMemorizationScore": { "type": "string", "description": "Nilai Hafalan (0-100)" },
+        "interviewScore": { "type": "string", "description": "Nilai Wawancara (0-100)" },
+        "totalScore": { "type": "string", "description": "Total nilai terbobot (0-100)" },
+        "interviewerNotes": { "type": "string", "description": "Catatan rekomendasi penguji" },
+        "gradedBy": { "type": "string", "description": "UID Panitia penilai" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp" }
+      },
+      "required": ["registrationId"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Official broadcast announcement or selection decision",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Judul Pengumuman" },
+        "content": { "type": "string", "description": "Isi rilis pengumuman" },
+        "publishedDate": { "type": "string", "description": "Tanggal rilis" },
+        "isPublished": { "type": "string", "description": "Status publikasi ('true'/'false')" },
+        "category": { "type": "string", "description": "Kategori (Kelulusan, Jadwal, Informasi)" }
+      },
+      "required": ["title", "content", "publishedDate"]
+    },
+    "ReRegistration": {
+      "title": "ReRegistration",
+      "description": "Daftar ulang record and payment verification",
+      "type": "object",
+      "properties": {
+        "registrationId": { "type": "string", "description": "Associated registration ID" },
+        "userId": { "type": "string", "description": "Calon santri UID" },
+        "totalAmount": { "type": "string", "description": "Nominal biaya daftar ulang" },
+        "paymentStatus": { "type": "string", "enum": ["Belum Daftar Ulang", "Menunggu Verifikasi", "Terverifikasi"], "description": "Status daftar ulang" },
+        "paymentMethod": { "type": "string", "description": "Bank transfer / Tunai" },
+        "proofUrl": { "type": "string", "description": "Bukti transfer image / doc URL" },
+        "accountHolderName": { "type": "string", "description": "Nama pemilik rekening pengirim" },
+        "verifiedBy": { "type": "string", "description": "Admin UID yang memverifikasi" },
+        "verifiedAt": { "type": "string", "description": "Waktu verifikasi" },
+        "updatedAt": { "type": "string", "description": "Waktu update" }
+      },
+      "required": ["registrationId", "userId", "paymentStatus"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Status update notifications sent to santri",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Recipient UID" },
+        "title": { "type": "string", "description": "Judul notifikasi" },
+        "message": { "type": "string", "description": "Pesan notifikasi" },
+        "type": { "type": "string", "enum": ["info", "success", "warning", "danger"], "description": "Tipe notifikasi" },
+        "isRead": { "type": "string", "description": "Status sudah dibaca" },
+        "createdAt": { "type": "string", "description": "Timestamp pembuatan" }
+      },
+      "required": ["userId", "title", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Stores user roles and basic profiles"
+    },
+    "/registrations/{registrationId}": {
+      "schema": "Registration",
+      "description": "Main registration application records"
+    },
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Student bio and personal identity"
+    },
+    "/education/{educationId}": {
+      "schema": "Education",
+      "description": "Educational background and chosen level"
+    },
+    "/parents/{parentId}": {
+      "schema": "Parent",
+      "description": "Parent and guardian records"
+    },
+    "/addresses/{addressId}": {
+      "schema": "Address",
+      "description": "Domicile address data"
+    },
+    "/pesantrenProfiles/{pesantrenProfileId}": {
+      "schema": "PesantrenProfile",
+      "description": "Religious and pesantren preferences"
+    },
+    "/documents/{documentId}": {
+      "schema": "Document",
+      "description": "Uploaded registration documents and verification records"
+    },
+    "/registrationWaves/{waveId}": {
+      "schema": "RegistrationWave",
+      "description": "Admission registration waves configuration"
+    },
+    "/programs/{programId}": {
+      "schema": "Program",
+      "description": "Academic and pesantren educational programs"
+    },
+    "/selectionSchedules/{scheduleId}": {
+      "schema": "SelectionSchedule",
+      "description": "Admission test schedules"
+    },
+    "/selectionScores/{scoreId}": {
+      "schema": "SelectionScore",
+      "description": "Grading scores for tests and interviews"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Official announcements"
+    },
+    "/reRegistrations/{reRegistrationId}": {
+      "schema": "ReRegistration",
+      "description": "Re-registration payment records"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "System notifications"
+    }
+  }
+}

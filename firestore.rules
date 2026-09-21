@@ -1,0 +1,96 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Test connection endpoint
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Registrations
+    match /registrations/{registrationId} {
+      allow read, write: if true;
+    }
+
+    // Students Biodata
+    match /students/{studentId} {
+      allow read, write: if true;
+    }
+
+    // Education History
+    match /education/{educationId} {
+      allow read, write: if true;
+    }
+
+    // Parents & Guardians
+    match /parents/{parentId} {
+      allow read, write: if true;
+    }
+
+    // Addresses
+    match /addresses/{addressId} {
+      allow read, write: if true;
+    }
+
+    // Pesantren Profiles
+    match /pesantrenProfiles/{profileId} {
+      allow read, write: if true;
+    }
+
+    // Uploaded Documents
+    match /documents/{documentId} {
+      allow read, write: if true;
+    }
+
+    // Registration Waves
+    match /registrationWaves/{waveId} {
+      allow read, write: if true;
+    }
+
+    // Educational Programs
+    match /programs/{programId} {
+      allow read, write: if true;
+    }
+
+    // Selection Schedules
+    match /selectionSchedules/{scheduleId} {
+      allow read, write: if true;
+    }
+
+    // Selection Scores (Exams & Interviews)
+    match /selectionScores/{scoreId} {
+      allow read, write: if true;
+    }
+
+    // Announcements
+    match /announcements/{announcementId} {
+      allow read, write: if true;
+    }
+
+    // Re-Registrations (Daftar Ulang)
+    match /reRegistrations/{reRegId} {
+      allow read, write: if true;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Default deny for unmapped paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

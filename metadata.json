@@ -1,0 +1,6 @@
+{
+  "name": "Sistem PPDB Pondok Pesantren",
+  "description": "Aplikasi Penerimaan Peserta Didik Baru (PPDB) Pondok Pesantren dengan manajemen pendaftaran, seleksi, penilaian, pengumuman, dan daftar ulang.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
